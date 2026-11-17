@@ -84,24 +84,14 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
         clearCart()
     }
 
-    fun fetchData() {
-        viewModelScope.launch {
+    fun fetchData() {        viewModelScope.launch {
             try {
-                // 1. Fetch main events via Retrofit
-                val eventsList = RetrofitClient.apiService.getEvents()
-                val adjustedEvents = eventsList.map { event ->
-                    val reducedBy = seatReductions[event.id] ?: 0
-                    if (reducedBy > 0) {
-                        event.copy(availableSeats = maxOf(0, event.availableSeats - reducedBy))
-                    } else {
-                        event
-                    }
-                }
-                _events.value = adjustedEvents
-
-                // 2. Fetch secondary campus text asynchronously (non-Retrofit)
-                val tip = SchoolQuotes.fetchRandomQuote()
-                _campusTip.value = tip
+                // TODO [Part A]: Use RetrofitClient to fetch the events list from the API service
+                // Example: val eventsList = RetrofitClient.apiService.getEvents()
+                // _events.value = eventsList
+                
+                // TODO [Part B]: Call your non-Retrofit text fetching method to update _campusTip.value
+                // Example: _campusTip.value = SchoolQuotes.fetchRandomQuote()
 
             } catch (_: Exception) {
                 _events.value = emptyList()
